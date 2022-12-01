@@ -231,4 +231,5 @@ void LexicalAnalyzer::parse() {
     if (errors > 0)
         cout << errors << " errors found in input file" << endl;
     }
+    tokens.push_back(EOFT,"#");
 }

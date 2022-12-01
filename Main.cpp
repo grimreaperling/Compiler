@@ -1,5 +1,6 @@
 #include "lex.h"
 #include "token.h"
+#include "syntax.h"
 #include <vector>
 using namespace std;
 vector<token> tokens;
@@ -16,5 +17,9 @@ int main(int argc, char **argv) {
     for (token word : tokens) {
         cout << word << endl;
     }
+
+	SyntaxAnalyzer syntax(argv[1]);
+	syntax.parse();
+
 	return 0;
 }
