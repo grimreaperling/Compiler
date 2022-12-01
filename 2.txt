@@ -1,0 +1,1 @@
+if ifa = a2 then begin a=a1; b=b1;end
