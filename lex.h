@@ -223,7 +223,7 @@ void LexicalAnalyzer::print_error() {
 void LexicalAnalyzer::parse() {
     while ((T = get_token(input_file)) != EOFT) {
         string word = "";
-        if (T > 16 && T < 19) {
+        if (T == ROP or T == ID) {
             word = get_lexeme();
         }
         token res(T, word);
