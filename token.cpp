@@ -47,10 +47,10 @@ string token::getVal() const {
 
 /* Return whether this token contains a value.*/
 bool token::isVal() const {
-    if (type >=1 and type <= 16) {
-        return false;
+    if (type == ID or type == ROP) {
+        return true;
     }
-    return true;
+    return false;
 }
 
 std::ostream& operator<<(std::ostream& oss, const token& word) {

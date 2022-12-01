@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stack>
 #include "token.h"
 using namespace std;
 extern vector<token> tokens;
 
-class SyntaxAnalyzer() {
+class SyntaxAnalyzer {
 public:
 	SyntaxAnalyzer();
 	void parse();
@@ -13,7 +14,7 @@ public:
 private:
 	stack<int> state;
 	stack<int> tokenst;
-	int state_table_SLR[][] = {
+	int state_table_SLR[47][26] = {
 		{3,0,5,0,0,8,0,0,0,10,11,0,0,0,13,0,14,15,0,1,2,7,4,12,6,9},
 		{0,105,0,0,105,0,0,0,0,0,0,0,0,0,0,0,0,0,200,0,0,0,0,0,0,0},
 		{3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,2,0,4,0,0,0},
@@ -301,10 +302,4 @@ void SyntaxAnalyzer::parse() {
 	}
 }
 
-/*SyntaAnalyzer::SyntaxAnalyzer() {
-	analysis.push(EOFT);
-	for (token word : tokens) {
-		yytokentype type = word.getType();
-		analysis.push(type);
-	}
-}*/
+SyntaxAnalyzer::SyntaxAnalyzer() {}

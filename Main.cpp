@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
         cout << word << endl;
     }
 
-	SyntaxAnalyzer syntax(argv[1]);
+	SyntaxAnalyzer syntax;
 	syntax.parse();
 
 	return 0;
