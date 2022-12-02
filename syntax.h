@@ -74,8 +74,11 @@ void SyntaxAnalyzer::parse() {
 	state.push(cs);
 	while (true) {
 		ts = state_table_SLR[cs][tokens[i].getType()];
-		
-		if (ts == 200) {
+		if (ts == 0) {
+			cout << "error!" << endl;
+			break;
+		}
+		else if (ts == 200) {
 			cout << "finish!" << endl;
 			break;
 		}
