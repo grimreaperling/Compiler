@@ -11,22 +11,30 @@ typedef enum {
     END = 2,
     IF = 3,
     THEN = 4,
-    OR = 5,
-    AND = 6,
-    NOT = 7,
-    SEMICOLON = 8,
-    ASSIGNMENT = 9,
-    ADD = 10,
-    MUL = 11,
-    SUB = 12,
-    TRUE = 13,
-    FALSE = 14,
-    LP = 15,
-    RP = 16,
-    ROP = 17,
-    ID = 18,
-    ERROR = 19,
-    EOFT = 20
+    SEMICOLON = 5,//;
+    ID = 6,
+    ASSIGNMENT = 7,//:=
+    ADD = 8,//+
+    MUL = 9,//*
+    SUB = 10,//-
+    LP = 11,//(
+    RP = 12,
+    OR = 13,
+    AND = 14,
+    NOT = 15,
+    ROP = 16,
+    TRUE = 17,
+    FALSE = 18,
+    EOFT = 19,
+    S = 20,
+    C = 21,
+    L = 22,
+    A = 23,
+    B = 24,
+    K = 25,
+    E = 26,
+    ERROR = 27,
+    _S = 28
 } yytokentype;   
 
 class token {

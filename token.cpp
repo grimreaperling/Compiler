@@ -5,22 +5,29 @@ vector<string> names {
     "END",
     "IF",
     "THEN",
-    "OR",
-    "AND",
-    "NOT",
     "SEMICOLON",
+    "ID",
     "ASSIGNMENT",
     "ADD",
     "MUL",
     "SUB",
-    "TRUE",
-    "FALSE",
     "LP",
     "RP",
+    "OR",
+    "AND",
+    "NOT",
     "ROP",
-    "ID",
-    "ERROR",
-    "EOFT"
+    "TRUE",
+    "FALSE",
+    "EOFT",
+    "S",
+    "C",
+    "L",
+    "A",
+    "B",
+    "K",
+    "E",
+    "ERROR"
 };
 
 token::token() {}
@@ -40,10 +47,10 @@ string token::getVal() const {
 
 /* Return whether this token contains a value.*/
 bool token::isVal() const {
-    if (type >=1 and type <= 16) {
-        return false;
+    if (type == ID or type == ROP) {
+        return true;
     }
-    return true;
+    return false;
 }
 
 std::ostream& operator<<(std::ostream& oss, const token& word) {
