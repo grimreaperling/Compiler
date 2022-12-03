@@ -12,8 +12,8 @@ Main.cpp: lex.h
 
 token.cpp: token.h
 
-test: 1.txt 2.txt Main
-	./Main 1.txt && ./Main 2.txt
+test: Main test.sh
+	bash test.sh
 
 clean:
 	rm -f *.o Main
