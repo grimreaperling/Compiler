@@ -27,7 +27,8 @@ vector<string> names {
     "B",
     "K",
     "E",
-    "ERROR"
+    "ERROR",
+    "S\'"
 };
 
 token::token() {}

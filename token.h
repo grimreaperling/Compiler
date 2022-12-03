@@ -34,7 +34,7 @@ typedef enum {
     K = 25,
     E = 26,
     ERROR = 27,
-    _S = 28
+    SS = 28, //S'
 } yytokentype;   
 
 class token {
