@@ -90,6 +90,12 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
     while(1) {
             // Consume next available character
         char c = line[pos];
+        if (lexeme == ":" and c != '=') {
+            pos++;
+            print_error();
+            errors++;
+            return ERROR;
+        }
         if (c == ' ' or c == '\n') {
             if (lexeme == "if") {
                 pos++;
@@ -153,6 +159,10 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
             pos++;
             return SEMICOLON;
         }
+        if (lexeme == ":=") {
+            pos++;
+            return ASSIGNMENT;
+        }
 
         if(isalpha(c) || c == '_')
             c = 'a';
@@ -204,10 +214,12 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
                 return ROP;
             case 12:
                 pos++;
-                print_error();
-                errors++;
-                return ERROR;
-        }
+                if (c != ':') {
+                    print_error();
+                    errors++;
+                    return ERROR;
+                }
+            }
     }
 }
 
@@ -223,7 +235,7 @@ void LexicalAnalyzer::print_error() {
 void LexicalAnalyzer::parse() {
     while ((T = get_token(input_file)) != EOFT) {
         string word = "";
-        if (T > 16 && T < 19) {
+        if (T == ROP or T == ID) {
             word = get_lexeme();
         }
         token res(T, word);
@@ -231,4 +243,6 @@ void LexicalAnalyzer::parse() {
     if (errors > 0)
         cout << errors << " errors found in input file" << endl;
     }
+    token end(EOFT, "#");
+    tokens.push_back(end);
 }
