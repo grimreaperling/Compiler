@@ -5,13 +5,13 @@
 using namespace std;
 vector<token> tokens;
 
-int main(/*int argc, char** argv*/) {
-    /*if (argc < 2) {
+int main(int argc, char** argv) {
+    if (argc < 2) {
 		cout << "Usage: ./Main  <filename>" << endl;
 		exit (1);
-	}*/
+	}
 
-	LexicalAnalyzer lex("1.txt");
+	LexicalAnalyzer lex(argv[1]);
 	lex.parse();
 
     for (token word : tokens) {

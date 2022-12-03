@@ -90,6 +90,19 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
     while(1) {
             // Consume next available character
         char c = line[pos];
+        if (c == ':') {
+            pos++;
+            c = line[pos];
+            if (c == '=') {
+                pos++;
+                return ASSIGNMENT;
+            } else {
+                pos++;
+                print_error();
+                errors++;
+                return ERROR;
+            }
+        }
         if (c == ' ' or c == '\n') {
             if (lexeme == "if") {
                 pos++;
