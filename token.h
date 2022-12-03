@@ -26,13 +26,13 @@ typedef enum {
     TRUE = 17,
     FALSE = 18,
     EOFT = 19,
-    S = 20,
+    S = 20, //从这里开始下面都是非终结符
     C = 21,
     L = 22,
     A = 23,
     B = 24,
     K = 25,
-    E = 26,
+    E = 26, //
     ERROR = 27,
     SS = 28, //S'
 } yytokentype;   
@@ -52,6 +52,8 @@ public:
     bool isVal() const;
 
     friend std::ostream& operator<<(std::ostream& oss, const token& word);
+    
+    void setVal(string);
 
 private:
     yytokentype type;

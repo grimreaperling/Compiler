@@ -2,6 +2,8 @@
 #include "token.h"
 //#include "syntax.h"
 #include "mysyntax.h"
+#include "tree.h"
+
 #include <vector>
 using namespace std;
 vector<token> tokens;
@@ -20,7 +22,13 @@ int main(int argc, char** argv) {
     }
 
 	SyntaxAnalyzer syntax;
-	syntax.parse();
+	vector<ProductionFormula> orderedProducts = syntax.parse();  //最右推导
+	for (ProductionFormula product : orderedProducts) {
+		cout << product << endl;
+	}
+	cout << "搜索树的叶子节点结果如下：" << endl;
+	SyntaxParsingTree tree(orderedProducts);
+	tree.show();
 
 	return 0;
 }

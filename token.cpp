@@ -63,3 +63,7 @@ std::ostream& operator<<(std::ostream& oss, const token& word) {
     }
     return oss;
 }
+
+void token::setVal(string value) {
+    this->val = value;
+}

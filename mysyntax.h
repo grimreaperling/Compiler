@@ -1,7 +1,10 @@
+#ifndef SYNTAX_H
+#define SYNTAX_H
 #include <iostream>
 #include <vector>
 #include <string>
 #include <stack>
+#include <algorithm>
 #include "token.h"
 using namespace std;
 extern vector<token> tokens; //引入外部变量数组
@@ -14,14 +17,18 @@ public:
 };
 
 ostream& operator<< (ostream& out, ProductionFormula produc) {
-	out << names[produc.left.getType() - 1];
+	out << "{" << names[produc.left.getType() - 1] << "," << produc.left.getVal() << "}";
 	out << " -> ";
 	for (token right : produc.rights) {
+		out << "{";
 		out << names[right.getType() - 1];
-		out << " ";
+		out << ",";
+		out << right.getVal();
+		out << "} ";
 	}
 	return out;
 }
+
 
 typedef vector<ProductionFormula> Syntax;
 
@@ -29,7 +36,8 @@ class SyntaxAnalyzer {
 public:
 	//SyntaxAnalyzer(Syntax syntax);
 	SyntaxAnalyzer();
-	void parse();
+	vector<ProductionFormula> parse(); //解析出一个所使用的产生式序列(正向的)
+	//SymbolNode* getSyntaxParsingTree(); //
 
 private:
 	static int state_table_SLR[46][27]; //SLR自动机数组
@@ -37,6 +45,7 @@ private:
 	stack<token> tokenst; //符号栈
 	int cs; // 当前状态
 	Syntax syntax; //表示当前分析器所能调用的全部产生式文法
+	//
 };
 //语法分析类的静态成员初始化
 int SyntaxAnalyzer::state_table_SLR[46][27] = {
@@ -88,6 +97,9 @@ int SyntaxAnalyzer::state_table_SLR[46][27] = {
 		{0,0,0,0,115,0,0,0,0,0,0,0,115,115,115,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
+
+
+
 SyntaxAnalyzer::SyntaxAnalyzer() {
 	cs = 0;
 	//构造产生式对象
@@ -98,28 +110,30 @@ SyntaxAnalyzer::SyntaxAnalyzer() {
 	syntax.push_back(ProductionFormula(C, vector<token>{IF, B, THEN}));
 	syntax.push_back(ProductionFormula(L, vector<token>{S}));
 	syntax.push_back(ProductionFormula(L, vector<token>{K, S}));
-	syntax.push_back(ProductionFormula(K, vector<token>{L, SEMICOLON}));
+	syntax.push_back(ProductionFormula(K, vector<token>{L, SEMICOLON})); //K -> L ;
 	syntax.push_back(ProductionFormula(A, vector<token>{ID, ASSIGNMENT, E}));
 	syntax.push_back(ProductionFormula(E, vector<token>{E, ADD, E}));
 	syntax.push_back(ProductionFormula(E, vector<token>{E, MUL, E}));
 	syntax.push_back(ProductionFormula(E, vector<token>{SUB, E}));
 	syntax.push_back(ProductionFormula(E, vector<token>{LP, E, RP}));
-	syntax.push_back(ProductionFormula(E, vector<token>{ID}));
+	syntax.push_back(ProductionFormula(E, vector<token>{ID})); //13: 注意ID的val
 	syntax.push_back(ProductionFormula(B, vector<token>{B, OR, B}));
 	syntax.push_back(ProductionFormula(B, vector<token>{B, AND, B}));
 	syntax.push_back(ProductionFormula(B, vector<token>{NOT, B}));
 	syntax.push_back(ProductionFormula(B, vector<token>{LP, B, RP}));
-	syntax.push_back(ProductionFormula(B, vector<token>{E, ROP, E}));
+	syntax.push_back(ProductionFormula(B, vector<token>{E, ROP, E})); //18: 注意ROP的val
 	syntax.push_back(ProductionFormula(B, vector<token>{TRUE}));
 	syntax.push_back(ProductionFormula(B, vector<token>{FALSE}));
 }
 
-void SyntaxAnalyzer::parse() {
+
+vector<ProductionFormula> SyntaxAnalyzer::parse() {
 	int i = 0;
 	int ts = 0; //临时保存状态
 	tokenst.push(EOFT); //栈底压入结束状态类型值 EOFT
 	cs = 0;
 	state.push(cs); //0号状态入栈
+	vector<ProductionFormula> productionFormulas; //规约顺序
 	while (true) {
 		ts = state_table_SLR[cs][tokens[i].getType()];
 		if (ts == 200) {
@@ -132,15 +146,26 @@ void SyntaxAnalyzer::parse() {
 			state.push(cs);
 			i++; //表示读取了一个字符
 		}
-		else {
+		else { //规约动作
 			ts %= 100; //准备进行规约操作
-			cout << "使用了产生式" << ts << ":\t";
-			cout << syntax[ts] << endl; //输出所用的产生式对象
+			//cout << "使用了产生式" << ts << ":\t";
+			//cout << syntax[ts] << endl; //输出所用的产生式对象
+			//for (int j = syntax[ts].rights.size() - 1; j >= 0; j--) {
+			//	rights.push_back(tokens[i - 1 - j]);
+			//}
+			//ProductionFormula tmpProductionFormula = syntax[ts];
+			//productionFormulas.push_back(tmpProductionFormula); //按照规约顺序放入产生式
+			vector<token> rights;
 			int lenRight = syntax[ts].rights.size();
 			for (int i = 0; i < lenRight; i++) {  //状态栈和符号栈出栈
+				rights.push_back(tokenst.top());
 				tokenst.pop();
 				state.pop();
 			}
+			reverse(rights.begin(), rights.end());
+			ProductionFormula tmpProductionFormula(syntax[ts].left, rights);
+			productionFormulas.push_back(tmpProductionFormula); //按照规约顺序放入产生式
+
 			tokenst.push(syntax[ts].left);  //栈顶变成了产生式左部
 			state.push(state_table_SLR[state.top()][tokenst.top().getType()]);
 			cs = state.top();
@@ -151,4 +176,8 @@ void SyntaxAnalyzer::parse() {
 		}
 		//cout << "cs = " << cs << endl;
 	}
+	reverse(productionFormulas.begin(), productionFormulas.end());
+	//转化成推导顺序
+	return productionFormulas;
 }
+#endif
