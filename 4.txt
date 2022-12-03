@@ -1,1 +1,1 @@
-X=Y
+if a == b then X := Y

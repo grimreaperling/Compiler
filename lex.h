@@ -90,18 +90,11 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
     while(1) {
             // Consume next available character
         char c = line[pos];
-        if (c == ':') {
+        if (lexeme == ":" and c != '=') {
             pos++;
-            c = line[pos];
-            if (c == '=') {
-                pos++;
-                return ASSIGNMENT;
-            } else {
-                pos++;
-                print_error();
-                errors++;
-                return ERROR;
-            }
+            print_error();
+            errors++;
+            return ERROR;
         }
         if (c == ' ' or c == '\n') {
             if (lexeme == "if") {
@@ -166,6 +159,10 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
             pos++;
             return SEMICOLON;
         }
+        if (lexeme == ":=") {
+            pos++;
+            return ASSIGNMENT;
+        }
 
         if(isalpha(c) || c == '_')
             c = 'a';
@@ -217,10 +214,12 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
                 return ROP;
             case 12:
                 pos++;
-                print_error();
-                errors++;
-                return ERROR;
-        }
+                if (c != ':') {
+                    print_error();
+                    errors++;
+                    return ERROR;
+                }
+            }
     }
 }
 

@@ -1,1 +1,1 @@
-if a == b then a := b
+if a == b then a:=b
