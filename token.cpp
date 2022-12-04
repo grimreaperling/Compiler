@@ -27,7 +27,8 @@ vector<string> names {
     "B",
     "K",
     "E",
-    "ERROR"
+    "ERROR",
+    "S\'"
 };
 
 token::token() {}
@@ -61,4 +62,8 @@ std::ostream& operator<<(std::ostream& oss, const token& word) {
         oss << " " << endl;
     }
     return oss;
+}
+
+void token::setVal(string value) {
+    this->val = value;
 }

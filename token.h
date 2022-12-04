@@ -33,7 +33,8 @@ typedef enum {
     B = 24,
     K = 25,
     E = 26,
-    ERROR = 27
+    ERROR = 27,
+    SS = 28, //S'
 } yytokentype;   
 
 class token {
@@ -51,6 +52,8 @@ public:
     bool isVal() const;
 
     friend std::ostream& operator<<(std::ostream& oss, const token& word);
+    
+    void setVal(string);
 
 private:
     yytokentype type;

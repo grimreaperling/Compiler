@@ -14,7 +14,7 @@ public:
 private:
 	stack<int> state;
 	stack<int> tokenst;
-    int state_table_SLR[46][27] = {
+	int state_table_SLR[46][27] = {
 		{0,3,0,5,0,0,8,0,0,0,10,11,0,0,0,13,0,14,15,0,1,2,7,4,12,6,9},
 		{0,0,105,0,0,105,0,0,0,0,0,0,0,0,0,0,0,0,0,200,0,0,0,0,0,0,0},
 		{0,3,0,5,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,16,2,0,4,0,0,0},
@@ -302,6 +302,7 @@ void SyntaxAnalyzer::parse() {
 			state.push(cs);
 			i++;
 		}
+		//cout << "cs = " << cs << endl;
 	}
 }
 
