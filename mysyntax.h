@@ -11,12 +11,14 @@ extern vector<token> tokens; //引入外部变量数组
 extern vector<string> names; // 引入外部的名称
 class ProductionFormula {  //产生式类型
 public:
+	int id; //产生式的序号
 	token left;
 	vector<token> rights;
-	ProductionFormula(token left, vector<token> rights) : left(left), rights(rights) {}
+	ProductionFormula(int id, token left, vector<token> rights) : id(id), left(left), rights(rights) {}
 };
 
 ostream& operator<< (ostream& out, ProductionFormula produc) {
+	out << produc.id << ": ";
 	out << "{" << names[produc.left.getType() - 1] << "," << produc.left.getVal() << "}";
 	out << " -> ";
 	for (token right : produc.rights) {
@@ -103,27 +105,27 @@ int SyntaxAnalyzer::state_table_SLR[46][27] = {
 SyntaxAnalyzer::SyntaxAnalyzer() {
 	cs = 0;
 	//构造产生式对象
-	syntax.push_back(ProductionFormula(SS, vector<token>{S}));// S' -> S
-	syntax.push_back(ProductionFormula(S, vector<token>{C, S})); // S -> CS
-	syntax.push_back(ProductionFormula(S, vector<token>{BEGIN, L, END})); //S -> begin L end
-	syntax.push_back(ProductionFormula(S, vector<token>{A}));
-	syntax.push_back(ProductionFormula(C, vector<token>{IF, B, THEN}));
-	syntax.push_back(ProductionFormula(L, vector<token>{S}));
-	syntax.push_back(ProductionFormula(L, vector<token>{K, S}));
-	syntax.push_back(ProductionFormula(K, vector<token>{L, SEMICOLON})); //K -> L ;
-	syntax.push_back(ProductionFormula(A, vector<token>{ID, ASSIGNMENT, E}));
-	syntax.push_back(ProductionFormula(E, vector<token>{E, ADD, E}));
-	syntax.push_back(ProductionFormula(E, vector<token>{E, MUL, E}));
-	syntax.push_back(ProductionFormula(E, vector<token>{SUB, E}));
-	syntax.push_back(ProductionFormula(E, vector<token>{LP, E, RP}));
-	syntax.push_back(ProductionFormula(E, vector<token>{ID})); //13: 注意ID的val
-	syntax.push_back(ProductionFormula(B, vector<token>{B, OR, B}));
-	syntax.push_back(ProductionFormula(B, vector<token>{B, AND, B}));
-	syntax.push_back(ProductionFormula(B, vector<token>{NOT, B}));
-	syntax.push_back(ProductionFormula(B, vector<token>{LP, B, RP}));
-	syntax.push_back(ProductionFormula(B, vector<token>{E, ROP, E})); //18: 注意ROP的val
-	syntax.push_back(ProductionFormula(B, vector<token>{TRUE}));
-	syntax.push_back(ProductionFormula(B, vector<token>{FALSE}));
+	syntax.push_back(ProductionFormula(0, SS, vector<token>{S}));// S' -> S
+	syntax.push_back(ProductionFormula(1, S, vector<token>{C, S})); // S -> CS
+	syntax.push_back(ProductionFormula(2, S, vector<token>{BEGIN, L, END})); //S -> begin L end
+	syntax.push_back(ProductionFormula(3, S, vector<token>{A}));
+	syntax.push_back(ProductionFormula(4, C, vector<token>{IF, B, THEN}));
+	syntax.push_back(ProductionFormula(5, L, vector<token>{S}));
+	syntax.push_back(ProductionFormula(6, L, vector<token>{K, S}));
+	syntax.push_back(ProductionFormula(7, K, vector<token>{L, SEMICOLON})); //K -> L ;
+	syntax.push_back(ProductionFormula(8, A, vector<token>{ID, ASSIGNMENT, E}));
+	syntax.push_back(ProductionFormula(9, E, vector<token>{E, ADD, E}));
+	syntax.push_back(ProductionFormula(10, E, vector<token>{E, MUL, E}));
+	syntax.push_back(ProductionFormula(11, E, vector<token>{SUB, E}));
+	syntax.push_back(ProductionFormula(12, E, vector<token>{LP, E, RP}));
+	syntax.push_back(ProductionFormula(13, E, vector<token>{ID})); //13: 注意ID的val
+	syntax.push_back(ProductionFormula(14, B, vector<token>{B, OR, B}));
+	syntax.push_back(ProductionFormula(15, B, vector<token>{B, AND, B}));
+	syntax.push_back(ProductionFormula(16, B, vector<token>{NOT, B}));
+	syntax.push_back(ProductionFormula(17, B, vector<token>{LP, B, RP}));
+	syntax.push_back(ProductionFormula(18, B, vector<token>{E, ROP, E})); //18: 注意ROP的val
+	syntax.push_back(ProductionFormula(19, B, vector<token>{TRUE}));
+	syntax.push_back(ProductionFormula(20, B, vector<token>{FALSE}));
 }
 
 
@@ -163,7 +165,7 @@ vector<ProductionFormula> SyntaxAnalyzer::parse() {
 				state.pop();
 			}
 			reverse(rights.begin(), rights.end());
-			ProductionFormula tmpProductionFormula(syntax[ts].left, rights);
+			ProductionFormula tmpProductionFormula(syntax[ts].id, syntax[ts].left, rights);
 			productionFormulas.push_back(tmpProductionFormula); //按照规约顺序放入产生式
 
 			tokenst.push(syntax[ts].left);  //栈顶变成了产生式左部
