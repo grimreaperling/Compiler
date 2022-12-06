@@ -19,12 +19,15 @@ public:
 	token symbol;  //当前节点存的符号
 	bool isTerminal; //当前节点是否为终结符
 	vector<SymbolNode*> nexts; //子节点的地址
+	string spaceName; //当前节点分配的空间名 对E B等非终结符有效
+	//终结符的空间名就是自己的名字
 	SymbolNode(token word) : symbol(word), id(-1) {  //这里先把分裂方式设置为不分裂
 		if (symbol.getType() >= 20 && symbol.getType() <= 26) {
-			isTerminal = false;
+			isTerminal = false; //非终结符
 		}
 		else {
-			isTerminal = true;
+			isTerminal = true; // 终结符
+			spaceName = symbol.getVal(); //终结符有自己的空间名称
 		}
 	}
 	//SymbolNode(token word, bool isOver) : symbol(word), isTerminal(isOver) { }
@@ -52,7 +55,7 @@ public:
 
 	SyntaxParsingTree(vector<ProductionFormula> orderedProducts);
 	~SyntaxParsingTree() {
-		delete root;
+		//delete root;
 	}
 
 	void DFS(SymbolNode* root) {

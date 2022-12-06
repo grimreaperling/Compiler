@@ -1,1 +1,1 @@
-X := Y1
+if x==y then x1:=y1

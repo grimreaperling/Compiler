@@ -1,1 +1,1 @@
-if ifa == a2 then begin a:=a1; b:=b1 end
+if x1==x2 then if y1==y2 then z1:=z2

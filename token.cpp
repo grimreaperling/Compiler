@@ -57,7 +57,7 @@ bool token::isVal() const {
 std::ostream& operator<<(std::ostream& oss, const token& word) {
     oss << "Type: " << names[word.getType() - 1];
     if (word.isVal()) {
-        oss << " Value: " << word.getVal();
+        oss << " Value: " << word.getVal() << " ";
     } else {
         oss << " ";
     }
