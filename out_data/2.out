@@ -1,5 +1,9 @@
    1: if x1==x2 then if y1==y2 then z1:=z2
-This is the result of the lexical analysis.
+┌────────────────────────┐
+│                        │
+│    Lexical Analysis    │
+│                        │
+└────────────────────────┘
 Type: IF 
 Type: ID Value: x1 
 Type: ROP Value: == 
@@ -14,7 +18,11 @@ Type: ID Value: z1
 Type: ASSIGNMENT 
 Type: ID Value: z2 
 Type: EOFT 
-This is the result of the syntax analysis.
+┌────────────────────────┐
+│                        │
+│    Semantic Analysis   │
+│                        │
+└────────────────────────┘
 The syntax analysis have successfully finished!
 1: {S,} -> {C,} {S,} 
 1: {S,} -> {C,} {S,} 
@@ -29,16 +37,25 @@ The syntax analysis have successfully finished!
 18: {B,} -> {E,} {ROP,==} {E,} 
 13: {E,} -> {ID,x2} 
 13: {E,} -> {ID,x1} 
-The leaves of the Abstract Syntax Tree.
+┌────────────────────────┐
+│                        │
+│  Abstract Syntax Tree  │
+│                        │
+└────────────────────────┘
+Leaves:
 IF x1 == x2 THEN IF y1 == y2 THEN z1 ASSIGNMENT z2 
-All the nodes from the Abstract Synatx Tree.
+Nodes:
 {Type: S id: 1} 
 {Type: C id: 4} {Type: S id: 1} 
 {Type: IF id: -1} {Type: B id: 18} {Type: THEN id: -1} {Type: C id: 4} {Type: S id: 3} 
 {Type: E id: 13} {Type: ROP Value: == id: -1} {Type: E id: 13} {Type: IF id: -1} {Type: B id: 18} {Type: THEN id: -1} {Type: A id: 8} 
 {Type: ID Value: x1 id: -1} {Type: ID Value: x2 id: -1} {Type: E id: 13} {Type: ROP Value: == id: -1} {Type: E id: 13} {Type: ID Value: z1 id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 13} 
 {Type: ID Value: y1 id: -1} {Type: ID Value: y2 id: -1} {Type: ID Value: z2 id: -1} 
-This is the result of the intermediate code generation.
+┌──────────────────────────────┐
+│                              │
+│ Intermediate Code Generation │
+│                              │
+└──────────────────────────────┘
 0: (=, x1, _, t1)
 1: (=, x2, _, t2)
 2: (==, t1, t2, t3)

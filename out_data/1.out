@@ -1,5 +1,9 @@
    1: if false or true and false then x:=y
-This is the result of the lexical analysis.
+┌────────────────────────┐
+│                        │
+│    Lexical Analysis    │
+│                        │
+└────────────────────────┘
 Type: IF 
 Type: FALSE 
 Type: OR 
@@ -11,7 +15,11 @@ Type: ID Value: x
 Type: ASSIGNMENT 
 Type: ID Value: y 
 Type: EOFT 
-This is the result of the syntax analysis.
+┌────────────────────────┐
+│                        │
+│    Semantic Analysis   │
+│                        │
+└────────────────────────┘
 The syntax analysis have successfully finished!
 1: {S,} -> {C,} {S,} 
 3: {S,} -> {A,} 
@@ -23,16 +31,25 @@ The syntax analysis have successfully finished!
 20: {B,} -> {FALSE,} 
 19: {B,} -> {TRUE,} 
 20: {B,} -> {FALSE,} 
-The leaves of the Abstract Syntax Tree.
+┌────────────────────────┐
+│                        │
+│  Abstract Syntax Tree  │
+│                        │
+└────────────────────────┘
+Leaves:
 IF FALSE OR TRUE AND FALSE THEN x ASSIGNMENT y 
-All the nodes from the Abstract Synatx Tree.
+Nodes:
 {Type: S id: 1} 
 {Type: C id: 4} {Type: S id: 3} 
 {Type: IF id: -1} {Type: B id: 14} {Type: THEN id: -1} {Type: A id: 8} 
 {Type: B id: 20} {Type: OR id: -1} {Type: B id: 15} {Type: ID Value: x id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 13} 
 {Type: FALSE id: -1} {Type: B id: 19} {Type: AND id: -1} {Type: B id: 20} {Type: ID Value: y id: -1} 
 {Type: TRUE id: -1} {Type: FALSE id: -1} 
-This is the result of the intermediate code generation.
+┌──────────────────────────────┐
+│                              │
+│ Intermediate Code Generation │
+│                              │
+└──────────────────────────────┘
 0: (and, true, false, t1)
 1: (or, false, t1, t2)
 2: (j=, t2, true, 4)

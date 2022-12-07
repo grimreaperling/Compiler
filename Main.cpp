@@ -17,27 +17,44 @@ int main(int argc, char** argv) {
 	LexicalAnalyzer lex(argv[1]);
 	lex.parse();
 
-	cout << "This is the result of the lexical analysis." << endl;
+    cout << "┌────────────────────────┐" << endl;
+    cout << "│                        │" << endl; 
+    cout << "│    Lexical Analysis    │" << endl;
+    cout << "│                        │" << endl;
+    cout << "└────────────────────────┘" << endl;
     for (token word : tokens) {
         cout << word << endl;
     }
 
-	cout << "This is the result of the syntax analysis." << endl;
+    cout << "┌────────────────────────┐" << endl;
+    cout << "│                        │" << endl; 
+    cout << "│    Semantic Analysis   │" << endl;
+    cout << "│                        │" << endl;
+    cout << "└────────────────────────┘" << endl;
 	SyntaxAnalyzer syntax;
 	vector<ProductionFormula> orderedProducts = syntax.parse();  
 	for (ProductionFormula product : orderedProducts) {
 		cout << product << endl;
 	}
 
-	cout << "The leaves of the Abstract Syntax Tree." << endl;
+    cout << "┌────────────────────────┐" << endl;
+    cout << "│                        │" << endl; 
+    cout << "│  Abstract Syntax Tree  │" << endl;
+    cout << "│                        │" << endl;
+    cout << "└────────────────────────┘" << endl;
 	SyntaxParsingTree tree(orderedProducts);
-	tree.show_leaves(); //
+    cout << "Leaves:" << endl;
+	tree.show_leaves(); 
 	cout << endl;
-	cout << "All the nodes from the Abstract Synatx Tree." << endl;
+    cout << "Nodes:" << endl;
 	tree.show_all(); 
+    cout << endl;
 
-	cout << endl;
-	cout << "This is the result of the intermediate code generation." << endl;
+    cout << "┌──────────────────────────────┐" << endl;
+    cout << "│                              │" << endl; 
+    cout << "│ Intermediate Code Generation │" << endl;
+    cout << "│                              │" << endl;
+    cout << "└──────────────────────────────┘" << endl;
 	IntermediateGenerator generator(tree);
 	vector<Quaternion> codes = generator.generate();
 	int line = 0;

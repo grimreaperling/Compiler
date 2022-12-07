@@ -1,5 +1,9 @@
    1: if a == b then a:=b
-This is the result of the lexical analysis.
+┌────────────────────────┐
+│                        │
+│    Lexical Analysis    │
+│                        │
+└────────────────────────┘
 Type: IF 
 Type: ID Value: a 
 Type: ROP Value: == 
@@ -9,7 +13,11 @@ Type: ID Value: a
 Type: ASSIGNMENT 
 Type: ID Value: b 
 Type: EOFT 
-This is the result of the syntax analysis.
+┌────────────────────────┐
+│                        │
+│    Semantic Analysis   │
+│                        │
+└────────────────────────┘
 The syntax analysis have successfully finished!
 1: {S,} -> {C,} {S,} 
 3: {S,} -> {A,} 
@@ -19,15 +27,24 @@ The syntax analysis have successfully finished!
 18: {B,} -> {E,} {ROP,==} {E,} 
 13: {E,} -> {ID,b} 
 13: {E,} -> {ID,a} 
-The leaves of the Abstract Syntax Tree.
+┌────────────────────────┐
+│                        │
+│  Abstract Syntax Tree  │
+│                        │
+└────────────────────────┘
+Leaves:
 IF a == b THEN a ASSIGNMENT b 
-All the nodes from the Abstract Synatx Tree.
+Nodes:
 {Type: S id: 1} 
 {Type: C id: 4} {Type: S id: 3} 
 {Type: IF id: -1} {Type: B id: 18} {Type: THEN id: -1} {Type: A id: 8} 
 {Type: E id: 13} {Type: ROP Value: == id: -1} {Type: E id: 13} {Type: ID Value: a id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 13} 
 {Type: ID Value: a id: -1} {Type: ID Value: b id: -1} {Type: ID Value: b id: -1} 
-This is the result of the intermediate code generation.
+┌──────────────────────────────┐
+│                              │
+│ Intermediate Code Generation │
+│                              │
+└──────────────────────────────┘
 0: (=, a, _, t1)
 1: (=, b, _, t2)
 2: (==, t1, t2, t3)
