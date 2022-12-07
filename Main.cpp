@@ -3,12 +3,7 @@
 //#include "syntax.h"
 #include "mysyntax.h"
 #include "tree.h"
-<<<<<<< HEAD
-=======
 #include "intermediate.h"
-
-
->>>>>>> refs/remotes/origin/SytaxParsingTree-Dev
 #include <vector>
 using namespace std;
 vector<token> tokens;
