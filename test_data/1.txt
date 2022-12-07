@@ -1,1 +1,1 @@
-if a1 == a2 and b1 <= b2 or b2 >= b3 and b2 < b1 then begin b1 = b2; a1 = (a1 + a2) end
+if false or true and false then x:=y
