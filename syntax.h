@@ -7,11 +7,11 @@
 #include <algorithm>
 #include "token.h"
 using namespace std;
-extern vector<token> tokens; //ÒıÈëÍâ²¿±äÁ¿Êı×é
-extern vector<string> names; // ÒıÈëÍâ²¿µÄÃû³Æ
-class ProductionFormula {  //²úÉúÊ½ÀàĞÍ
+extern vector<token> tokens; //å¼•å…¥å¤–éƒ¨å˜é‡æ•°ç»„
+extern vector<string> names; // å¼•å…¥å¤–éƒ¨çš„åç§°
+class ProductionFormula {  //äº§ç”Ÿå¼ç±»å‹
 public:
-	int id; //²úÉúÊ½µÄĞòºÅ
+	int id; //äº§ç”Ÿå¼çš„åºå·
 	token left;
 	vector<token> rights;
 	ProductionFormula(int id, token left, vector<token> rights) : id(id), left(left), rights(rights) {}
@@ -38,18 +38,18 @@ class SyntaxAnalyzer {
 public:
 	//SyntaxAnalyzer(Syntax syntax);
 	SyntaxAnalyzer();
-	vector<ProductionFormula> parse(); //½âÎö³öÒ»¸öËùÊ¹ÓÃµÄ²úÉúÊ½ĞòÁĞ(ÕıÏòµÄ)
+	vector<ProductionFormula> parse(); //è§£æå‡ºä¸€ä¸ªæ‰€ä½¿ç”¨çš„äº§ç”Ÿå¼åºåˆ—(æ­£å‘çš„)
 	//SymbolNode* getSyntaxParsingTree(); //
 
 private:
-	static int state_table_SLR[43][27]; //SLR×Ô¶¯»úÊı×é
-	stack<int> state; //×´Ì¬Õ»
-	stack<token> tokenst; //·ûºÅÕ»
-	int cs; // µ±Ç°×´Ì¬
-	Syntax syntax; //±íÊ¾µ±Ç°·ÖÎöÆ÷ËùÄÜµ÷ÓÃµÄÈ«²¿²úÉúÊ½ÎÄ·¨
+	static int state_table_SLR[43][27]; //SLRè‡ªåŠ¨æœºæ•°ç»„
+	stack<int> state; //çŠ¶æ€æ ˆ
+	stack<token> tokenst; //ç¬¦å·æ ˆ
+	int cs; // å½“å‰çŠ¶æ€
+	Syntax syntax; //è¡¨ç¤ºå½“å‰åˆ†æå™¨æ‰€èƒ½è°ƒç”¨çš„å…¨éƒ¨äº§ç”Ÿå¼æ–‡æ³•
 	//
 };
-//Óï·¨·ÖÎöÀàµÄ¾²Ì¬³ÉÔ±³õÊ¼»¯
+//è¯­æ³•åˆ†æç±»çš„é™æ€æˆå‘˜åˆå§‹åŒ–
 int SyntaxAnalyzer::state_table_SLR[43][27] = {
 		{0,3,0,5,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,4,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,200,0,0,0,0,0,0,0},
@@ -100,7 +100,7 @@ int SyntaxAnalyzer::state_table_SLR[43][27] = {
 
 SyntaxAnalyzer::SyntaxAnalyzer() {
 	cs = 0;
-	//¹¹Ôì²úÉúÊ½¶ÔÏó
+	//æ„é€ äº§ç”Ÿå¼å¯¹è±¡
 	syntax.push_back(ProductionFormula(0, SS, vector<token>{S}));// S' -> S
 	syntax.push_back(ProductionFormula(1, S, vector<token>{C, S})); // S -> CS
 	syntax.push_back(ProductionFormula(2, S, vector<token>{BEGIN, L, END})); //S -> begin L end
@@ -114,12 +114,12 @@ SyntaxAnalyzer::SyntaxAnalyzer() {
 	syntax.push_back(ProductionFormula(10, E, vector<token>{E, MUL, E}));
 	syntax.push_back(ProductionFormula(11, E, vector<token>{SUB, E}));
 	syntax.push_back(ProductionFormula(12, E, vector<token>{LP, E, RP}));
-	syntax.push_back(ProductionFormula(13, E, vector<token>{ID})); //13: ×¢ÒâID
+	syntax.push_back(ProductionFormula(13, E, vector<token>{ID})); //13: æ³¨æ„ID
 	syntax.push_back(ProductionFormula(14, B, vector<token>{B, OR, B}));
 	syntax.push_back(ProductionFormula(15, B, vector<token>{B, AND, B}));
 	syntax.push_back(ProductionFormula(16, B, vector<token>{NOT, B}));
 	syntax.push_back(ProductionFormula(17, B, vector<token>{LP, B, RP}));
-	syntax.push_back(ProductionFormula(18, B, vector<token>{E, ROP, E})); //18: ×¢ÒâROPµÄval
+	syntax.push_back(ProductionFormula(18, B, vector<token>{E, ROP, E})); //18: æ³¨æ„ROPçš„val
 	syntax.push_back(ProductionFormula(19, B, vector<token>{TRUE}));
 	syntax.push_back(ProductionFormula(20, B, vector<token>{FALSE}));
 }
@@ -127,44 +127,45 @@ SyntaxAnalyzer::SyntaxAnalyzer() {
 
 vector<ProductionFormula> SyntaxAnalyzer::parse() {
 	int i = 0;
-	int ts = 0; //ÁÙÊ±±£´æ×´Ì¬
-	tokenst.push(EOFT); //Õ»µ×Ñ¹Èë½áÊø×´Ì¬ÀàĞÍÖµ EOFT
+	int ts = 0; //ä¸´æ—¶ä¿å­˜çŠ¶æ€
+	tokenst.push(EOFT); //æ ˆåº•å‹å…¥ç»“æŸçŠ¶æ€ç±»å‹å€¼ EOFT
 	cs = 0;
-	state.push(cs); //0ºÅ×´Ì¬ÈëÕ»
-	vector<ProductionFormula> productionFormulas; //¹æÔ¼Ë³Ğò
+	state.push(cs); //0å·çŠ¶æ€å…¥æ ˆ
+	vector<ProductionFormula> productionFormulas; //è§„çº¦é¡ºåº
 	while (true) {
 		ts = state_table_SLR[cs][tokens[i].getType()];
 		if (ts == 200) {
-			cout << "·ÖÎö³É¹¦!" << endl;
+			cout << "The syntax analysis have successfully finished!" << endl;
+			//cout << "åˆ†ææˆåŠŸ!" << endl;
 			break;
 		}
-		else if (ts <= 99) { //ÒÆÈë²Ù×÷
-			cs = ts; //ĞŞ¸Äµ±Ç°×´Ì¬
+		else if (ts <= 99) { //ç§»å…¥æ“ä½œ
+			cs = ts; //ä¿®æ”¹å½“å‰çŠ¶æ€
 			tokenst.push(tokens[i]); //tokens[i].getType()
 			state.push(cs);
-			i++; //±íÊ¾¶ÁÈ¡ÁËÒ»¸ö×Ö·û
+			i++; //è¡¨ç¤ºè¯»å–äº†ä¸€ä¸ªå­—ç¬¦
 		}
-		else { //¹æÔ¼¶¯×÷
-			ts %= 100; //×¼±¸½øĞĞ¹æÔ¼²Ù×÷
-			//cout << "Ê¹ÓÃÁË²úÉúÊ½" << ts << ":\t";
-			//cout << syntax[ts] << endl; //Êä³öËùÓÃµÄ²úÉúÊ½¶ÔÏó
+		else { //è§„çº¦åŠ¨ä½œ
+			ts %= 100; //å‡†å¤‡è¿›è¡Œè§„çº¦æ“ä½œ
+			//cout << "ä½¿ç”¨äº†äº§ç”Ÿå¼" << ts << ":\t";
+			//cout << syntax[ts] << endl; //è¾“å‡ºæ‰€ç”¨çš„äº§ç”Ÿå¼å¯¹è±¡
 			//for (int j = syntax[ts].rights.size() - 1; j >= 0; j--) {
 			//	rights.push_back(tokens[i - 1 - j]);
 			//}
 			//ProductionFormula tmpProductionFormula = syntax[ts];
-			//productionFormulas.push_back(tmpProductionFormula); //°´ÕÕ¹æÔ¼Ë³Ğò·ÅÈë²úÉúÊ½
+			//productionFormulas.push_back(tmpProductionFormula); //æŒ‰ç…§è§„çº¦é¡ºåºæ”¾å…¥äº§ç”Ÿå¼
 			vector<token> rights;
 			int lenRight = syntax[ts].rights.size();
-			for (int i = 0; i < lenRight; i++) {  //×´Ì¬Õ»ºÍ·ûºÅÕ»³öÕ»
+			for (int i = 0; i < lenRight; i++) {  //çŠ¶æ€æ ˆå’Œç¬¦å·æ ˆå‡ºæ ˆ
 				rights.push_back(tokenst.top());
 				tokenst.pop();
 				state.pop();
 			}
 			reverse(rights.begin(), rights.end());
 			ProductionFormula tmpProductionFormula(syntax[ts].id, syntax[ts].left, rights);
-			productionFormulas.push_back(tmpProductionFormula); //°´ÕÕ¹æÔ¼Ë³Ğò·ÅÈë²úÉúÊ½
+			productionFormulas.push_back(tmpProductionFormula); //æŒ‰ç…§è§„çº¦é¡ºåºæ”¾å…¥äº§ç”Ÿå¼
 
-			tokenst.push(syntax[ts].left);  //Õ»¶¥±ä³ÉÁË²úÉúÊ½×ó²¿
+			tokenst.push(syntax[ts].left);  //æ ˆé¡¶å˜æˆäº†äº§ç”Ÿå¼å·¦éƒ¨
 			state.push(state_table_SLR[state.top()][tokenst.top().getType()]);
 			cs = state.top();
 		}
@@ -175,7 +176,7 @@ vector<ProductionFormula> SyntaxAnalyzer::parse() {
 		//cout << "cs = " << cs << endl;
 	}
 	reverse(productionFormulas.begin(), productionFormulas.end());
-	//×ª»¯³ÉÍÆµ¼Ë³Ğò
+	//è½¬åŒ–æˆæ¨å¯¼é¡ºåº
 	return productionFormulas;
 }
 #endif
