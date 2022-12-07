@@ -98,7 +98,6 @@ int SyntaxAnalyzer::state_table_SLR[43][27] = {
 
 
 
-
 SyntaxAnalyzer::SyntaxAnalyzer() {
 	cs = 0;
 	//构造产生式对象
@@ -136,7 +135,7 @@ vector<ProductionFormula> SyntaxAnalyzer::parse() {
 	while (true) {
 		ts = state_table_SLR[cs][tokens[i].getType()];
 		if (ts == 200) {
-			cout << "The syntax analysis have successfully finished!" << endl;
+			cout << "分析成功!" << endl;
 			break;
 		}
 		else if (ts <= 99) { //移入操作
