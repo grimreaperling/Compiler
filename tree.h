@@ -7,7 +7,7 @@
 #include <queue>
 
 #include "token.h"
-#include "mysyntax.h"
+#include "syntax.h"
 
 
 extern vector<string> names; // 引入外部的名称
