@@ -1,0 +1,179 @@
+   1: begin
+   2:  	begin txy:=(b+d)*c end;
+   3:  	if not(a>=a8 and b!=b7) then if a>a8 then a:=b;
+   4:  	if a>a9 then begin a:=-b;b:=b0 end
+   5: end
+┌────────────────────────┐
+│                        │
+│    Lexical Analysis    │
+│                        │
+└────────────────────────┘
+Type: BEGIN 
+Type: BEGIN 
+Type: ID Value: txy 
+Type: ASSIGNMENT 
+Type: LP 
+Type: ID Value: b 
+Type: ADD 
+Type: ID Value: d 
+Type: RP 
+Type: MUL 
+Type: ID Value: c 
+Type: END 
+Type: SEMICOLON 
+Type: IF 
+Type: NOT 
+Type: LP 
+Type: ID Value: a 
+Type: ROP Value: >= 
+Type: ID Value: a8 
+Type: AND 
+Type: ID Value: b 
+Type: ROP Value: != 
+Type: ID Value: b7 
+Type: RP 
+Type: THEN 
+Type: IF 
+Type: ID Value: a 
+Type: ROP Value: > 
+Type: ID Value: a8 
+Type: THEN 
+Type: ID Value: a 
+Type: ASSIGNMENT 
+Type: ID Value: b 
+Type: SEMICOLON 
+Type: IF 
+Type: ID Value: a 
+Type: ROP Value: > 
+Type: ID Value: a9 
+Type: THEN 
+Type: BEGIN 
+Type: ID Value: a 
+Type: ASSIGNMENT 
+Type: SUB 
+Type: ID Value: b 
+Type: SEMICOLON 
+Type: ID Value: b 
+Type: ASSIGNMENT 
+Type: ID Value: b0 
+Type: END 
+Type: END 
+Type: EOFT 
+┌────────────────────────┐
+│                        │
+│     Syntax Analysis    │
+│                        │
+└────────────────────────┘
+>>>>>>>>>>>>>>>>>>>>>>>>>>Success<<<<<<<<<<<<<<<<<<<<<<<
+2: {S,} -> {BEGIN,} {L,} {END,} 
+6: {L,} -> {K,} {S,} 
+1: {S,} -> {C,} {S,} 
+2: {S,} -> {BEGIN,} {L,} {END,} 
+6: {L,} -> {K,} {S,} 
+3: {S,} -> {A,} 
+8: {A,} -> {ID,b} {ASSIGNMENT,} {E,} 
+13: {E,} -> {ID,b0} 
+7: {K,} -> {L,} {SEMICOLON,} 
+5: {L,} -> {S,} 
+3: {S,} -> {A,} 
+8: {A,} -> {ID,a} {ASSIGNMENT,} {E,} 
+11: {E,} -> {SUB,} {E,} 
+13: {E,} -> {ID,b} 
+4: {C,} -> {IF,} {B,} {THEN,} 
+18: {B,} -> {E,} {ROP,>} {E,} 
+13: {E,} -> {ID,a9} 
+13: {E,} -> {ID,a} 
+7: {K,} -> {L,} {SEMICOLON,} 
+6: {L,} -> {K,} {S,} 
+1: {S,} -> {C,} {S,} 
+1: {S,} -> {C,} {S,} 
+3: {S,} -> {A,} 
+8: {A,} -> {ID,a} {ASSIGNMENT,} {E,} 
+13: {E,} -> {ID,b} 
+4: {C,} -> {IF,} {B,} {THEN,} 
+18: {B,} -> {E,} {ROP,>} {E,} 
+13: {E,} -> {ID,a8} 
+13: {E,} -> {ID,a} 
+4: {C,} -> {IF,} {B,} {THEN,} 
+16: {B,} -> {NOT,} {B,} 
+17: {B,} -> {LP,} {B,} {RP,} 
+15: {B,} -> {B,} {AND,} {B,} 
+18: {B,} -> {E,} {ROP,!=} {E,} 
+13: {E,} -> {ID,b7} 
+13: {E,} -> {ID,b} 
+18: {B,} -> {E,} {ROP,>=} {E,} 
+13: {E,} -> {ID,a8} 
+13: {E,} -> {ID,a} 
+7: {K,} -> {L,} {SEMICOLON,} 
+5: {L,} -> {S,} 
+2: {S,} -> {BEGIN,} {L,} {END,} 
+5: {L,} -> {S,} 
+3: {S,} -> {A,} 
+8: {A,} -> {ID,txy} {ASSIGNMENT,} {E,} 
+10: {E,} -> {E,} {MUL,} {E,} 
+13: {E,} -> {ID,c} 
+12: {E,} -> {LP,} {E,} {RP,} 
+9: {E,} -> {E,} {ADD,} {E,} 
+13: {E,} -> {ID,d} 
+13: {E,} -> {ID,b} 
+┌────────────────────────┐
+│                        │
+│  Abstract Syntax Tree  │
+│                        │
+└────────────────────────┘
+Leaves:
+BEGIN BEGIN txy ASSIGNMENT LP b ADD d RP MUL c END SEMICOLON IF NOT LP a >= a8 AND b != b7 RP THEN IF a > a8 THEN a ASSIGNMENT b SEMICOLON IF a > a9 THEN BEGIN a ASSIGNMENT SUB b SEMICOLON b ASSIGNMENT b0 END END 
+Nodes:
+{Type: S id: 2} 
+{Type: BEGIN id: -1} {Type: L id: 6} {Type: END id: -1} 
+{Type: K id: 7} {Type: S id: 1} 
+{Type: L id: 6} {Type: SEMICOLON id: -1} {Type: C id: 4} {Type: S id: 2} 
+{Type: K id: 7} {Type: S id: 1} {Type: IF id: -1} {Type: B id: 18} {Type: THEN id: -1} {Type: BEGIN id: -1} {Type: L id: 6} {Type: END id: -1} 
+{Type: L id: 5} {Type: SEMICOLON id: -1} {Type: C id: 4} {Type: S id: 1} {Type: E id: 13} {Type: ROP Value: > id: -1} {Type: E id: 13} {Type: K id: 7} {Type: S id: 3} 
+{Type: S id: 2} {Type: IF id: -1} {Type: B id: 16} {Type: THEN id: -1} {Type: C id: 4} {Type: S id: 3} {Type: ID Value: a id: -1} {Type: ID Value: a9 id: -1} {Type: L id: 5} {Type: SEMICOLON id: -1} {Type: A id: 8} 
+{Type: BEGIN id: -1} {Type: L id: 5} {Type: END id: -1} {Type: NOT id: -1} {Type: B id: 17} {Type: IF id: -1} {Type: B id: 18} {Type: THEN id: -1} {Type: A id: 8} {Type: S id: 3} {Type: ID Value: b id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 13} 
+{Type: S id: 3} {Type: LP id: -1} {Type: B id: 15} {Type: RP id: -1} {Type: E id: 13} {Type: ROP Value: > id: -1} {Type: E id: 13} {Type: ID Value: a id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 13} {Type: A id: 8} {Type: ID Value: b0 id: -1} 
+{Type: A id: 8} {Type: B id: 18} {Type: AND id: -1} {Type: B id: 18} {Type: ID Value: a id: -1} {Type: ID Value: a8 id: -1} {Type: ID Value: b id: -1} {Type: ID Value: a id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 11} 
+{Type: ID Value: txy id: -1} {Type: ASSIGNMENT id: -1} {Type: E id: 10} {Type: E id: 13} {Type: ROP Value: >= id: -1} {Type: E id: 13} {Type: E id: 13} {Type: ROP Value: != id: -1} {Type: E id: 13} {Type: SUB id: -1} {Type: E id: 13} 
+{Type: E id: 12} {Type: MUL id: -1} {Type: E id: 13} {Type: ID Value: a id: -1} {Type: ID Value: a8 id: -1} {Type: ID Value: b id: -1} {Type: ID Value: b7 id: -1} {Type: ID Value: b id: -1} 
+{Type: LP id: -1} {Type: E id: 9} {Type: RP id: -1} {Type: ID Value: c id: -1} 
+{Type: E id: 13} {Type: ADD id: -1} {Type: E id: 13} 
+{Type: ID Value: b id: -1} {Type: ID Value: d id: -1} 
+┌──────────────────────────────┐
+│                              │
+│ Intermediate Code Generation │
+│                              │
+└──────────────────────────────┘
+0: (=, b, _, $t1)
+1: (=, d, _, $t2)
+2: (+, $t1, $t2, $t3)
+3: (=, c, _, $t4)
+4: (*, $t3, $t4, $t5)
+5: (:=, $t5, _, txy)
+6: (=, a, _, $t6)
+7: (=, a8, _, $t7)
+8: (>=, $t6, $t7, $t8)
+9: (=, b, _, $t9)
+10: (=, b7, _, $t10)
+11: (!=, $t9, $t10, $t11)
+12: (and, $t8, $t11, $t12)
+13: (not, $t12, _, $t13)
+14: (j=, $t13, true, 16)
+15: (j, _, _, 23)
+16: (=, a, _, $t14)
+17: (=, a8, _, $t15)
+18: (>, $t14, $t15, $t16)
+19: (j=, $t16, true, 21)
+20: (j, _, _, 23)
+21: (=, b, _, $t17)
+22: (:=, $t17, _, a)
+23: (=, a, _, $t18)
+24: (=, a9, _, $t19)
+25: (>, $t18, $t19, $t20)
+26: (j=, $t20, true, 28)
+27: (j, _, _, 33)
+28: (=, b, _, $t21)
+29: (-, $t21, _, $t22)
+30: (:=, $t22, _, a)
+31: (=, b0, _, $t23)
+32: (:=, $t23, _, b)

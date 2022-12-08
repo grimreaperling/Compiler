@@ -10,20 +10,24 @@ using namespace std;
 
 extern vector<token> tokens;
 
-int state_table[13][6] = {
-    {1,12,3,6,9,12},
-    {1,1,2,2,2,2},
-    {0,0,0,0,0,0},
-    {4,4,5,4,4,4},
-    {0,0,0,0,0,0},
-    {0,0,0,0,0,0},
-    {7,7,8,7,7,7},
-    {0,0,0,0,0,0},
-    {0,0,0,0,0,0},
-    {10,10,11,10,10,10},
-    {0,0,0,0,0,0},
-    {0,0,0,0,0,0},
-    {0,0,0,0,0,0},
+int state_table[17][8] = {
+    {1,12,3,6,9,13,15,12},
+    {1,1,2,2,2,2,2,2},
+    {0,0,0,0,0,0,0,0},
+    {4,4,5,4,4,4,4,4},
+    {0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0},
+    {7,7,8,7,7,7,7,7},
+    {0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0},
+    {10,10,11,10,10,10,10,10},
+    {0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0},
+    {0,0,0,0,0,0,0,0},
+    {12,12,14,12,12,12,12,12},
+    {0,0,0,0,0,0,0,0},
+    {12,12,16,12,12,12,12,12},
+    {0,0,0,0,0,0,0,0}
 };
 
 class LexicalAnalyzer {
@@ -55,7 +59,7 @@ LexicalAnalyzer::LexicalAnalyzer(char* filename) {
         cout << "Error: could not open \"" << filename << "\"" << endl;
         exit(1);
     }
-    valid = "a0=><";
+    valid = "a0=><:!";
     lexeme = "";
     line = "";
     cs = 0;
@@ -90,51 +94,7 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
     while(1) {
             // Consume next available character
         char c = line[pos];
-        if (lexeme == ":" and c != '=') {
-            pos++;
-            print_error();
-            errors++;
-            return ERROR;
-        }
-        if (c == ' ' or c == '\n') {
-            if (lexeme == "if") {
-                pos++;
-                return IF;
-            }
-            if (lexeme == "then") {
-                pos++;
-                return THEN;
-            }
-            if (lexeme == "begin") {
-                pos++;
-                return BEGIN;
-            }
-            if (lexeme == "true") {
-                pos++;
-                return TRUE;
-            }
-            if (lexeme == "false") {
-                pos++;
-                return FALSE;
-            }
-            if (lexeme == "and") {
-                pos++;
-                return AND;
-            }
-            if (lexeme == "or") {
-                pos++;
-                return OR;
-            }
-            if (lexeme == "not") {
-                pos++;
-                return NOT;
-            }
-        }
         lexeme += c;
-        if (lexeme == "end") {
-            pos++;
-            return END;
-        }
         if (lexeme == "+") {
             pos++;
             return ADD;
@@ -159,10 +119,6 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
             pos++;
             return SEMICOLON;
         }
-        if (lexeme == ":=") {
-            pos++;
-            return ASSIGNMENT;
-        }
 
         if(isalpha(c) || c == '_')
             c = 'a';
@@ -171,7 +127,7 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
 
         int col = 0;
         // Find the correct column in the state table
-        while(col < 5 && c != valid[col]) {
+        while(col < 7 && c != valid[col]) {
             col++;
         }
         // Update state based on character just consumed
@@ -184,6 +140,33 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
                 break;
             case 2:
                 lexeme = lexeme.substr(0, lexeme.size()-1);
+                if (lexeme == "if") {
+                    return IF;
+                }
+                if (lexeme == "then") {
+                    return THEN;
+                }
+                if (lexeme == "begin") {
+                    return BEGIN;
+                }
+                if (lexeme == "true") {
+                    return TRUE;
+                }
+                if (lexeme == "false") {
+                    return FALSE;
+                }
+                if (lexeme == "and") {
+                    return AND;
+                }
+                if (lexeme == "or") {
+                    return OR;
+                }
+                if (lexeme == "not") {
+                    return NOT;
+                }
+                if (lexeme == "end") {
+                    return END;
+                }
                 return ID;
             case 3:
                 pos++;
@@ -214,12 +197,22 @@ yytokentype LexicalAnalyzer::get_token(ifstream &input_file) {
                 return ROP;
             case 12:
                 pos++;
-                if (c != ':') {
-                    print_error();
-                    errors++;
-                    return ERROR;
-                }
-            }
+                print_error();
+                errors++;
+                return ERROR;
+            case 13:
+                pos++;
+                break;
+            case 14:
+                pos++;
+                return ASSIGNMENT;
+            case 15:
+                pos++;
+                break;
+            case 16:
+                pos++;
+                return ROP;
+        }
     }
 }
 

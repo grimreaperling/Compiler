@@ -18,7 +18,7 @@ class Space { //专门用来分配空间的类
 public:
 	static int cnt;
 	static string allocSpace() {
-		return "t" + std::to_string(++cnt);
+		return "$t" + std::to_string(++cnt);
 	}
 };
 
@@ -76,7 +76,7 @@ public:
 			break;
 		case 8: //A->id:=E
 			solve(nowSymbolNode->nexts[2]); //解决A->id:=E中的E
-			codes.push_back(Quaternion("=", nextSpaceName(2), nextSpaceName(0)));
+			codes.push_back(Quaternion(":=", nextSpaceName(2), nextSpaceName(0)));
 			break;
 		case 9: //E->E+E
 			solve(nowSymbolNode->nexts[0]);

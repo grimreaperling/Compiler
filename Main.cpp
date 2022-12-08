@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
     cout << "┌────────────────────────┐" << endl;
     cout << "│                        │" << endl; 
-    cout << "│    Semantic Analysis   │" << endl;
+    cout << "│     Syntax Analysis    │" << endl;
     cout << "│                        │" << endl;
     cout << "└────────────────────────┘" << endl;
 	SyntaxAnalyzer syntax;

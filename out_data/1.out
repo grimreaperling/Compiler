@@ -17,10 +17,10 @@ Type: ID Value: y
 Type: EOFT 
 ┌────────────────────────┐
 │                        │
-│    Semantic Analysis   │
+│     Syntax Analysis    │
 │                        │
 └────────────────────────┘
-The syntax analysis have successfully finished!
+>>>>>>>>>>>>>>>>>>>>>>>>>>Success<<<<<<<<<<<<<<<<<<<<<<<
 1: {S,} -> {C,} {S,} 
 3: {S,} -> {A,} 
 8: {A,} -> {ID,x} {ASSIGNMENT,} {E,} 
@@ -50,9 +50,9 @@ Nodes:
 │ Intermediate Code Generation │
 │                              │
 └──────────────────────────────┘
-0: (and, true, false, t1)
-1: (or, false, t1, t2)
-2: (j=, t2, true, 4)
+0: (and, true, false, $t1)
+1: (or, false, $t1, $t2)
+2: (j=, $t2, true, 4)
 3: (j, _, _, 6)
-4: (=, y, _, t3)
-5: (=, t3, _, x)
+4: (=, y, _, $t3)
+5: (:=, $t3, _, x)

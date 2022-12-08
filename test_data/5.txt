@@ -1,0 +1,1 @@
+if a == a1 and b == b1 or c == d then begin a = a2; c = c1; d = d2 end

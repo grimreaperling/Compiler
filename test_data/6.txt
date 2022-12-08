@@ -1,0 +1,5 @@
+begin
+ 	begin txy:=(b+d)*c end;
+ 	if not(a>=a8 and b==b7) then if a>a8 then a:=b;
+ 	if a>a9 then begin a:=-b;b:=b0 end
+end

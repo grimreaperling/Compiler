@@ -136,7 +136,7 @@ vector<ProductionFormula> SyntaxAnalyzer::parse() {
 	while (true) {
 		ts = state_table_SLR[cs][tokens[i].getType()];
 		if (ts == 200) {
-			cout << "The syntax analysis have successfully finished!" << endl;
+			cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>Success<<<<<<<<<<<<<<<<<<<<<<<" << endl;
 			break;
 		}
 		else if (ts <= 99) { //ÒÆÈë²Ù×÷
