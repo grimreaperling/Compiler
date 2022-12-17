@@ -100,8 +100,8 @@ public:
 			nowSymbolNode->spaceName = nextSpaceName(1); //直接设置左边E的空间名为产生式右边的空间名
 			break;
 		case 13: //E->id
-			nowSymbolNode->spaceName = Space::allocSpace(); //为左边的E分配空间
-			codes.push_back(Quaternion("=", nextSpaceName(0), nowSymbolNode->spaceName));
+			nowSymbolNode->spaceName = nextSpaceName(0); //直接设置为右边的表达式的空间名
+			//codes.push_back(Quaternion("=", nextSpaceName(0), nowSymbolNode->spaceName));
 			break;
 		case 14: //B->B or B
 			solve(nowSymbolNode->nexts[0]);
